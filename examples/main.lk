@@ -1,0 +1,10 @@
+push 8 i8
+push 5 i8
+add
+push 2 i8
+mul
+push 2 i8
+div
+push 2 i8
+div
+print 1 i64
