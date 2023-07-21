@@ -22,6 +22,8 @@ namespace demo {
 
     private:
       void compile_line(const std::string& line);
+
+      // Returns true if the next token is the type of the integer
       bool write_int(const token& current, const token& next);
   };
 }
