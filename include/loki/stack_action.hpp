@@ -34,6 +34,8 @@ namespace loki {
       ) : _input(input)
         , _stack(stack) {}
 
+      virtual ~stack_action() = default;
+
       virtual void act() = 0;
 
     protected:

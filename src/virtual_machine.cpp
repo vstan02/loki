@@ -25,23 +25,17 @@
 #include "loki/virtual_machine.hpp"
 
 namespace loki {
-  template <class T>
-  inline std::shared_ptr<stack_action>
-  make_action(bytecode_istream& input, std::stack<value, std::deque<value>> stack) {
-    return std::make_shared<stack_action>(T(input, stack));
-  }
-
   extern virtual_machine::virtual_machine(const std::string& path)
     : _input(path)
     , _stack()
-    , _actions() {
-      _actions[bytecode::PUSH] = make_action<vm_push>(_input, _stack);
-      _actions[bytecode::PRINT] = make_action<vm_print>(_input, _stack);
-      _actions[bytecode::ADD] = make_action<vm_add>(_input, _stack);
-      _actions[bytecode::MUL] = make_action<vm_mul>(_input, _stack);
-      _actions[bytecode::SUB] = make_action<vm_sub>(_input, _stack);
-      _actions[bytecode::DIV] = make_action<vm_div>(_input, _stack);
-    }
+    , _actions({
+      { bytecode::PUSH, std::make_shared<vm_push>(_input, _stack) },
+      { bytecode::PRINT, std::make_shared<vm_print>(_input, _stack) },
+      { bytecode::ADD, std::make_shared<vm_add>(_input, _stack) },
+      { bytecode::SUB, std::make_shared<vm_sub>(_input, _stack) },
+      { bytecode::MUL, std::make_shared<vm_mul>(_input, _stack) },
+      { bytecode::DIV, std::make_shared<vm_div>(_input, _stack) }
+    }) {}
 
   extern void virtual_machine::evaluate() {
     bytecode code;
